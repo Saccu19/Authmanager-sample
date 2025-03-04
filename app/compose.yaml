@@ -25,14 +25,14 @@ services:
     env_file: "./.env"
     
     environment:
-      # Qui specifico a quale database può accedere l'utente System-1 infatti esso avrà accesso soltanto a quel database
+      # Qui specifico a quale database può accedere l'utente MYSQL-USER infatti esso avrà accesso soltanto a quel database
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-      # Nome utente di un utente che può accedere al database
+      # Nome di un utente che può accedere al database
       MYSQL_USER: ${MYSQL_USER}
       # Password per un utente qualunque che può accedere al database
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       # Password per l'accesso del root account che di default è root, per gestire utenti e altro lo potrò fare solo con il root account
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # non legge i segreti nonostante ci siano nella path
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     # secrets:
     #   - db_name
     #   - db_user

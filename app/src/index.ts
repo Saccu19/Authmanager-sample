@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { content } from "./config/router-contents";
 import path from "path";
 import swaggerJSDoc from "swagger-jsdoc";
-import { apisPath, options } from "./config/swagger";
+import { options } from "./config/swagger";
 
 
 dotenv.config();
