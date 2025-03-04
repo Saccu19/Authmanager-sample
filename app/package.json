@@ -1,0 +1,44 @@
+{
+  "name": "authmanager",
+  "version": "1.0.0",
+  "description": "api docker ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx ts-node services/db/init-struct.ts && nodemon src/index.ts",
+    "db": "npx ts-node db/starter-db.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saccu19/AuthManager.git"
+  },
+  "author": "Ivan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Saccu19/AuthManager/issues"
+  },
+  "homepage": "https://github.com/Saccu19/AuthManager#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jest": "^29.5.12",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.13.4",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.9",
+    "swagger-jsdoc": "^6.2.8",
+    "typescript": "^5.7.2",
+     "ts-node": "^10.9.2",
+     "jest": "^29.7.0",
+     "ts-jest": "^29.2.5"
+  }
+}

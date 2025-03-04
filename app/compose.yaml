@@ -1,0 +1,61 @@
+version: '1.0'
+services:
+  api:
+    image: authmanagernode
+    build: .
+    ports:
+      - "3000:3000"
+    # these options allow to sync code changes without manually restart the container
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /src
+  database:
+    image: mysql:latest
+    # [reminder] active only when the container running properly otherwise you can come across a loop 
+    # restart: always
+    volumes:
+      - Authmanager-db:/var/lib/mysql
+      # - ./utilities/secrets/db_name.txt:/run/secrets/db_name:ro #:ro read-only
+      # - ./utilities/secrets/db_user.txt:/run/secrets/db_user:ro
+      # - ./utilities/secrets/db_password.txt:/run/secrets/db_password:ro
+      # - ./utilities/secrets/db_root_password.txt:/run/secrets/db_root_password:ro
+    # dichiaro i file che contengono le variabili di ambiente
+    env_file: "./.env"
+    
+    environment:
+      # Qui specifico a quale database può accedere l'utente System-1 infatti esso avrà accesso soltanto a quel database
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # Nome utente di un utente che può accedere al database
+      MYSQL_USER: ${MYSQL_USER}
+      # Password per un utente qualunque che può accedere al database
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      # Password per l'accesso del root account che di default è root, per gestire utenti e altro lo potrò fare solo con il root account
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # non legge i segreti nonostante ci siano nella path
+    # secrets:
+    #   - db_name
+    #   - db_user
+    #   - db_password
+    #   - db_root_password
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      - 3306
+
+# using Docker best practices to pass sensitive data securely
+# secrets:
+#   db_name:
+#     file: ./utilities/secrets/db_name.txt
+#   db_user: 
+#     file: ./utilities/secrets/db_user.txt
+#   db_password:
+#     file: ./utilities/secrets/db_password.txt
+#   db_root_password:
+#     file: ./utilities/secrets/db_root_password.txt
+
+# Names our volume
+volumes:
+  Authmanager-db:
+
