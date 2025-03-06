@@ -52,10 +52,127 @@ Infatti nel file di configurazione della connessione con il database della nostr
 
 ``` markdown
 export const accessConfiguration: ConnectionOptions = {
+  host: "database", 
   user: process.env.MYSQL_USER,
   database: process.env.MYSQL_DATABASE,
   password: process.env.MYSQL_PASSWORD,
 };
 ```
+### 4- Avvia i container
+Una volta fatto il set up del progetto, è tutto pronto per l'avvio.
+Assicurati di essere nella workdir corretta cioè app che è appunto la cartella in cui sistrova il nostro compose.yaml.
+Diamo un'occhiata al nostro file
+``` yaml
+version: '1.0'
+services:
+  api:
+    image: authmanagernode-sample
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - authmanagersample-network
+    
+    # these options allow to sync code changes without manually restart the container
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /src
+  database:
+    image: mysql:latest
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
+    # [reminder] active only when the container running properly otherwise you can come across a loop 
+    # restart: always
 
+    volumes:
+      - Authmanagersample-db:/var/lib/mysql
+      # - ./utilities/secrets/db_name.txt:/run/secrets/db_name:ro #:ro read-only
+      # - ./utilities/secrets/db_user.txt:/run/secrets/db_user:ro
+      # - ./utilities/secrets/db_password.txt:/run/secrets/db_password:ro
+      # - ./utilities/secrets/db_root_password.txt:/run/secrets/db_root_password:ro
+    # dichiaro i file che contengono le variabili di ambiente
+    env_file: "./.env"
+    networks:
+      - authmanagersample-network
+    
+    environment:
+      # Qui specifico a quale database può accedere l'utente MYSQL-USER infatti esso avrà accesso soltanto a quel database
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # Nome di un utente che può accedere al database
+      MYSQL_USER: ${MYSQL_USER}
+      # Password per un utente qualunque che può accedere al database
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      # Password per l'accesso del root account che di default è root, per gestire utenti e altro lo potrò fare solo con il root account
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    # secrets:
+    #   - db_name
+    #   - db_user
+    #   - db_password
+    #   - db_root_password
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      - 3306
+
+# using Docker best practices to pass sensitive data securely
+# secrets:
+#   db_name:
+#     file: ./utilities/secrets/db_name.txt
+#   db_user: 
+#     file: ./utilities/secrets/db_user.txt
+#   db_password:
+#     file: ./utilities/secrets/db_password.txt
+#   db_root_password:
+#     file: ./utilities/secrets/db_root_password.txt
+
+# Names our volume
+volumes:
+  Authmanagersample-db:
+networks:
+  authmanagersample-network:
+    name: authmanagersample-network
+```
+Il compose.yaml definisce i container e il loro comportamento
+- app (il nostro container che contiene l'immagine di nodeJS e che eseguirà la nostra api)
+- database (Il contaienr che conterrà il nostro database)
+- volumes (I volumi conterranno tutti i dati del database in modo tale che se stoppiamo e riavviamo il container "database" non perderemo i dati come le tabelle)
+- network (Definisce un nnetwork comune per i due container)
+
+Per avviare i container puoi utilizzare l'interfaccia utente di docker Desktop oppure usare il terminale.
+Da terminale lancia il comando:
+``` terminal
+docker compose -p <your-container-name> up
+```
+Il risultato è che se tutto è andato a buon fine avari un container <your-container-name> che contiene altri due container app e database.
+Controlliamo che tutto sia in esecuzione come vogliamo.
+``` terminal
+docker container ls
+```
+Questo comando restituirà i contaienr in esecuzione che nel nostro caso se non hai anceh altri servizi in esecuzione sono due e prendono il nome che tu hai fornito <your-container-name>.
+Abbiamo allora due container avviati che parlano tra loro perchè sappiamo anche che la connessione al database è stata eseguita correttamente(lo puoi verificare dai logs di app)
+
+### Testare gli endpoint
+Possiamo ora andare a testare gli endopoint della nostra api, apri Bruno o il tuo client preferito.
+Effettua questa chiaamta per recuperare la documentazione dell'api(consiglio di fare questo passaggio direttamente dal browser)
+``` terminal
+http://localhost:8000/api-docs
+```
+ATTENZIONE: La porta che inserisci dipende dalla variabile d'ambiente PORT che hai inserito nel progetto.
+Una volta fatta la chiamata avrai una pagina con tutti i dettagli dei vari endpoint.
+
+## Conclusioni
+Bene ora hai avviato un progetto completamente dockerizzato e che gestisce l'autenticazione degli utenti, ho scrito un rticolo sul mio sito dove parlo nello specifico di come ho sviluppato il codice e le difficoltà nell'utilizzo di Docker.
+Di seguito ti lascio i miei contatti:
+- [Website](https://saccutelliwebsolutions.com)
+- [Linkedin](https://www.linkedin.com/in/ivan-saccutelli-811638270/)
