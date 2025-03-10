@@ -5,7 +5,7 @@ import { User } from "../../models/User";
 
 /**
  * @swagger
- * /admin-action:
+ * /api/metrics:
  *   get:
  *     summary: Ottieni le metriche di sistema
  *     description: Ritorna le metriche di sistema, disponibile solo per utenti amministratori autenticati. L'utente deve fornire un token JWT valido con i permessi necessari.
@@ -34,6 +34,7 @@ import { User } from "../../models/User";
  *             schema:
  *               type: string
  *               example: "Errore nella richiesta dei dati"
+ * /api/delete-user:
  *   delete:
  *     summary: Elimina un utente
  *     description: Permette a un amministratore autenticato di eliminare un utente specificato tramite l'id. L'utente deve fornire un token JWT valido con i permessi necessari.

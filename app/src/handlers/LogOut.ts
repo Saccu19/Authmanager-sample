@@ -4,7 +4,7 @@ import { changeVersioning } from "../../services/db/dao";
 
 /**
  * @swagger
- * /logout:
+ * /auth/logout:
  *   post:
  *     summary: Effettua il logout dell'utente
  *     description: Segna l'utente come "logout" aggiornando il suo stato di autenticazione nel database. La funzione aggiorna la versione di login dell'utente per indicare che l'utente ha effettuato il logout.

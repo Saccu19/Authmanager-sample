@@ -5,7 +5,7 @@ import { UpdateUser } from "../../services/db/dao";
 
 /**
  * @swagger
- * /update-profile:
+ * /api/update-profile:
  *   put:
  *     summary: Aggiorna il profilo dell'utente
  *     description: Permette a un utente autenticato non necessariamente con permessi di admin di aggiornare il proprio profilo, incluso l'aggiornamento della password. L'utente deve fornire un token JWT valido per eseguire l'operazione.

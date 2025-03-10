@@ -1,10 +1,15 @@
-version: '1.0'
 services:
   api:
-    image: authmanagernode
+    image: authmanagernode-sample
     build: .
     ports:
-      - "3000:3000"
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - authmanagersample-network
+    
     # these options allow to sync code changes without manually restart the container
     develop:
       watch:
@@ -13,16 +18,26 @@ services:
           target: /src
   database:
     image: mysql:latest
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
     # [reminder] active only when the container running properly otherwise you can come across a loop 
     # restart: always
+
     volumes:
-      - Authmanager-db:/var/lib/mysql
+      - Authmanagersample-db:/var/lib/mysql
       # - ./utilities/secrets/db_name.txt:/run/secrets/db_name:ro #:ro read-only
       # - ./utilities/secrets/db_user.txt:/run/secrets/db_user:ro
       # - ./utilities/secrets/db_password.txt:/run/secrets/db_password:ro
       # - ./utilities/secrets/db_root_password.txt:/run/secrets/db_root_password:ro
     # dichiaro i file che contengono le variabili di ambiente
     env_file: "./.env"
+    networks:
+      - authmanagersample-network
     
     environment:
       # Qui specifico a quale database può accedere l'utente MYSQL-USER infatti esso avrà accesso soltanto a quel database
@@ -57,5 +72,8 @@ services:
 
 # Names our volume
 volumes:
-  Authmanager-db:
+  Authmanagersample-db:
+networks:
+  authmanagersample-network:
+    name: authmanagersample-network
 

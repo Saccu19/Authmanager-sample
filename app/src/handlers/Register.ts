@@ -4,7 +4,7 @@ import { InsertUser } from "../../services/db/dao";
 import hash from "../../utilities/bcrypt-hash";
 /**
  * @swagger
- * /register:
+ * /auth/register:
  *   post:
  *     summary: Registrazione di un nuovo utente
  *     description: Crea un nuovo utente nel sistema.

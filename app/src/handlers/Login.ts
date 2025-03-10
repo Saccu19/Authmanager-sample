@@ -15,7 +15,7 @@ export type Prova = {
 
 /**
  * @swagger
- * /login:
+ * /auth/login:
  *   post:
  *     summary: Effettua il login dell'utente e restituisce un token JWT.
  *     description: Confronta la password fornita con quella memorizzata nel database. Se la password è corretta, viene restituito un token JWT che può essere utilizzato per l'autenticazione nelle richieste successive e che contiene informazioni dell'utente come ip, ruolo(admin o user), email e id.

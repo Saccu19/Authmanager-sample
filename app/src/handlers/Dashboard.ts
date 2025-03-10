@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 /**
  * @swagger
- * /dashboard:
+ * /api/dashboard:
  *   get:
  *     summary: Ottieni il dashboard dell'utente
  *     description: Questa rotta è protetta e richiede un token JWT per accedere alle risorse.
