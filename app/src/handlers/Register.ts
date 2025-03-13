@@ -1,4 +1,4 @@
-import express, { Express, Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import { User } from "../../models/User";
 import { InsertUser } from "../../services/db/dao";
 import hash from "../../utilities/bcrypt-hash";

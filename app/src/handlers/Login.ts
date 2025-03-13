@@ -1,13 +1,10 @@
-import express, { Express, Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import { User } from "../../models/User";
 import { changeVersioning, checkUser } from "../../services/db/dao";
 import jwtCreateSecret from "../../utilities/jwtCreateSecret";
-import hash from "../../utilities/bcrypt-hash";
 import comparePassword from "../../utilities/bcrypt-compare";
-import { OkPacketParams, QueryError, QueryResult, RowDataPacket } from "mysql2";
+import { RowDataPacket } from "mysql2";
 
-const _URL_ = process.env.MAIN_URL;
-const algorithm = process.env.ALGORITHMS;
 
 export type Prova = {
   password: string;

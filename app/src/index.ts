@@ -9,7 +9,6 @@ import { options } from "./config/swagger";
 
 
 dotenv.config();
-const __DIRNAME = path.resolve(__dirname, "..", "views");
 export const app: Express = express();
 const port = process.env.PORT || 3000;
 const swaggerSpec = swaggerJSDoc(options)
@@ -22,8 +21,7 @@ app.use("/api", content);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
-// console.log(__DIRNAME);
-// console.log(apisPath);
+
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

@@ -1,7 +1,8 @@
 import path from "path";
 import { Options } from "swagger-jsdoc";
-import { SwaggerOptions } from "swagger-ui-express";
-
+/*
+  file di configurazione di Swagger
+*/
 export const apisPath = path.resolve(
   __dirname,
   "..",

@@ -1,23 +1,15 @@
 {
-  "name": "authmanager",
+  "name": "authmanager-sample",
   "version": "1.0.0",
-  "description": "api docker ",
+  "description": "api docker",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx ts-node services/db/init-struct.ts && nodemon src/index.ts",
     "up": "npx ts-node services/db/init-struct.ts && ts-node src/index.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Saccu19/AuthManager.git"
-  },
-  "author": "Ivan",
+  "author": "Saccu19",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Saccu19/AuthManager/issues"
-  },
-  "homepage": "https://github.com/Saccu19/AuthManager#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import path from "path";
 
-const __DIRNAME = path.resolve(__dirname, "..", "views");
 
 // questo middleware rappresenta il primo livello di sicurezza cioè dove si controlla se il client è autenticato oppure no
 export default function validation(

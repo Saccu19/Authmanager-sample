@@ -2,7 +2,7 @@ import { userTable } from "./tables";
 import query from "./query";
 
 /*
- Questo file contiene le query di creazione delle tabelle
+ Questo file contiene le query di creazione della tabella
 */
 
 export default async function init_struct() {

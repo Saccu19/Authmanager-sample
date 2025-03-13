@@ -1,6 +1,6 @@
 import { User } from "../models/User";
 import createSecret from "./secretGenerator";
-import jwt, { Jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 
 export default function jwtCreateSecret(userCredentials: Partial<User>): string {

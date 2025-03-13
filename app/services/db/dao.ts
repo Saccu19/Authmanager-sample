@@ -6,7 +6,6 @@ import { FieldPacket, QueryError, QueryResult, RowDataPacket } from "mysql2";
 import { User } from "../../models/User";
 import { userTable } from "./tables";
 import query from "./query";
-import comparePassword from "../../utilities/bcrypt-compare";
 
 export async function InsertUser(
   params: User
@@ -16,7 +15,7 @@ export async function InsertUser(
     [params.nome, params.email, params.password]
   );
 }
-// this funztion is used for log in
+// Funzione per il login
 export async function checkUser(
   params: Partial<User>
 ): Promise<QueryError | RowDataPacket[]> {
